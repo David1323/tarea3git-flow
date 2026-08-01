@@ -1,0 +1,14 @@
+{
+  "name": "task-manager-api",
+  "version": "1.0.0",
+  "description": "CRUD API de gestion de tareas - proyecto de practica Git Flow",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node test.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
