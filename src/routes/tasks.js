@@ -28,4 +28,32 @@ router.post("/", (req, res) => {
   res.status(201).json(task);
 });
 
+// PUT /api/tasks/:id
+router.put("/:id", (req, res) => {
+  const tasks = readAll();
+  const index = tasks.findIndex((t) => t.id === Number(req.params.id));
+  if (index === -1) return res.status(404).json({ error: "Tarea no encontrada" });
+
+  const { title, description, done } = req.body;
+  tasks[index] = {
+    ...tasks[index],
+    ...(title !== undefined && { title }),
+    ...(description !== undefined && { description }),
+    ...(done !== undefined && { done }),
+  };
+  writeAll(tasks);
+  res.json(tasks[index]);
+});
+
+// DELETE /api/tasks/:id
+router.delete("/:id", (req, res) => {
+  const tasks = readAll();
+  const index = tasks.findIndex((t) => t.id === Number(req.params.id));
+  if (index === -1) return res.status(404).json({ error: "Tarea no encontrada" });
+
+  const [deleted] = tasks.splice(index, 1);
+  writeAll(tasks);
+  res.json(deleted);
+});
+
 module.exports = router;
