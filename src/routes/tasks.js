@@ -21,7 +21,13 @@ router.get("/:id", (req, res) => {
 // POST /api/tasks
 router.post("/", (req, res) => {
   const { title, description } = req.body;
-  const task = createTask({ title, description });
+
+  // Hotfix: title es obligatorio y no puede ir vacio
+  if (!title || typeof title !== "string" || !title.trim()) {
+    return res.status(400).json({ error: "El campo 'title' es obligatorio" });
+  }
+
+  const task = createTask({ title: title.trim(), description });
   const tasks = readAll();
   tasks.push(task);
   writeAll(tasks);
